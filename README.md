@@ -14,10 +14,14 @@ The steps described here require the following software:
 
 ## Contents
 
-* Read filtering
+* Read filtering (update will link to raw reads)
 * Read mapping
 * Variant calling
 * Variant filtering
 * Pixy analysis
 
 ### Read Filtering
+
+#### Set up environment
+
+Get raw fastq data into `fastq` directory.
