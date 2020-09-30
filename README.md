@@ -12,10 +12,11 @@ The steps described here require the following software:
 * GATK (v3 and v4.0.8.1)
 * Pixy
 
-List files and shell script examples are in the `processing_files` directory.
+List and miscellaneous files are in the `processing_files` directory.
+Example shell scripts are in the `scripts` directory. These will need to be moved accordingly.
 Population genetic summary statistics output from `pixy` are in the `pixy_results` directory.
 
-Note that you may need to adjust the organization of your environment to suite your workflow.
+Note that you may need to adjust the organization of your environment (e.g., script locations) to suite your workflow.
 
 ## Contents
 
@@ -117,8 +118,9 @@ done
 
 #### Call cohort variants using `GATK GenotypeGVCFs`, specifying 'all-sites' output
 
-`java -jar ../../gatk-3.8-1-0/GenomeAnalysisTK.jar -T GenotypeGVCFs -R ../../CroVir_genome_L77pg_16Aug2017.final_rename.fasta -V gvcf.pilot_analysis_v2.male.list -allSites -o ./vcf/pilot_analysis_v2.male.raw.vcf.gz`
-
+```
+java -jar ../../gatk-3.8-1-0/GenomeAnalysisTK.jar -T GenotypeGVCFs -R ../../CroVir_genome_L77pg_16Aug2017.final_rename.fasta -V gvcf.pilot_analysis_v2.male.list -allSites -o ./vcf/pilot_analysis_v2.male.raw.vcf.gz
+```
 
 
 
