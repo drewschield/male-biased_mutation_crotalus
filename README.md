@@ -13,7 +13,7 @@ The steps described here require the following software:
 * Pixy
 
 List files and shell script examples are in the `processing_files` directory.
-Population genetic summary statistics output from `pixy` are in the `data` directory.
+Population genetic summary statistics output from `pixy` are in the `pixy_results` directory.
 
 Note, you may need to adjust the organization of your environment to suite your workflow.
 
