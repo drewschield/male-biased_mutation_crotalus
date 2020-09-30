@@ -19,6 +19,8 @@ Population genetic summary statistics output from `pixy` are in the `pixy_result
 
 Note that you may need to adjust the organization of your environment (e.g., script locations) to suite your workflow.
 
+__*If you want to go straight to mutation rate ratio calculations, skip ahead to the 'Analysis in R' section and go nuts!*__
+
 ## Contents
 
 * Read filtering (update will link to raw reads)
