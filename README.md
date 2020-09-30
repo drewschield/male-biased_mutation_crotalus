@@ -22,6 +22,12 @@ The steps described here require the following software:
 
 ### Read Filtering
 
+I will impose these filters to trim reads:
+	* Remove 5' end bases if quality is below 20
+	* Remove 3' end bases if quality is below 20
+	* Minimum read length = 32
+	* Remove reads if average quality is < 30
+
 #### Set up environment
 
 Get raw fastq data into `fastq` directory.
