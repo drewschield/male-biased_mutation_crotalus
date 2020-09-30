@@ -165,7 +165,7 @@ You're probably thinking, "we could have masked genes in the same step as repeat
 
 #### Filter masked gene bases using `bcftools`
 
-Again, this is a totally needless step if you mask genes and repeats at the same time. If you're smarter than me and do so, just adding `FILTER="GENE"` to the `bcftools filter` -e flag will do the trick.
+Again, this is a totally needless step if you mask genes and repeats at the same time. If you're smarter than me and do so, adding `|| FILTER="GENE"` to the `bcftools filter` "-e" flag will do the trick.
 
 ```
 bcftools filter --threads 24 -e 'FILTER="GENE"' --set-GTs . -O z -o ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.vcf.gz ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.vcf.gz
