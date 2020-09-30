@@ -36,9 +36,7 @@ I will impose these filters to trim reads:
 
 #### Set up environment
 
-Get raw fastq data into `fastq` directory.
-
-Make a `fastq_filtered` directory for trimmed output.
+Get raw fastq data into `fastq` directory. <br /> Make a `fastq_filtered` directory for trimmed output.
 
 ```
 mkdir fastq
