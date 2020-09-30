@@ -20,7 +20,7 @@ Note, you may need to adjust the organization of your environment to suite your 
 ## Contents
 
 * Read filtering (update will link to raw reads)
-* Read mapping
+* Read mapping (update will link to reference genome & annotation)
 * Variant calling
 * Variant filtering
 * Pixy analysis
@@ -42,3 +42,19 @@ Get raw fastq data into `fastq` directory. <br /> Make a `fastq_filtered` direct
 mkdir fastq
 mkdir fastq_filtered
 ```
+
+#### Filter reads with Trimmomatic
+
+The script below will loop through samples in `processing_files/sample.list`.
+
+trimmomatic.sh
+```
+list=$1
+for line in `cat $list`; do
+	name=$line
+	echo processing and filtering ${name}.
+	trimmomatic PE -phred33 -threads 16 ./fastq/${name}_R1_001.fastq.gz ./fastq/${name}_R2_001.fastq.gz ./fastq_filtered/${name}_R1_P.trim.fastq.gz ./fastq_filtered/${name}_R1_U.trim.fastq.gz ./fastq_filtered/${name}_R2_P.trim.fastq.gz ./fastq_filtered/${name}_R2_U.trim.fastq.gz LEADING:20 TRAILING:20 MINLEN:32 AVGQUAL:30
+done
+```
+
+`sh trimmomatic.sh ./processing_files/sample.list`
