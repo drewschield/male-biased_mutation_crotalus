@@ -15,7 +15,7 @@ The steps described here require the following software:
 List files and shell script examples are in the `processing_files` directory.
 Population genetic summary statistics output from `pixy` are in the `pixy_results` directory.
 
-Note, you may need to adjust the organization of your environment to suite your workflow.
+Note that you may need to adjust the organization of your environment to suite your workflow.
 
 ## Contents
 
@@ -27,7 +27,7 @@ Note, you may need to adjust the organization of your environment to suite your 
 
 ### Read Filtering
 
-I will impose these filters to trim reads:
+We impose these filters to trim reads:
 
 * Remove 5' end bases if quality is below 20
 * Remove 3' end bases if quality is below 20
@@ -47,7 +47,7 @@ mkdir fastq_filtered
 
 The script below will loop through samples in `processing_files/sample.list`.
 
-trimmomatic.sh
+trimmomatic.sh:
 ```
 list=$1
 for line in `cat $list`; do
@@ -58,3 +58,26 @@ done
 ```
 
 `sh trimmomatic.sh ./processing_files/sample.list`
+
+### Read mapping
+
+We will map filtered reads to the C. viridis reference genome (add link) using `bwa`.
+
+#### Set up environment
+
+`mkdir bam`
+
+#### Map reads with bwa
+
+bwa_mem.sh:
+
+```
+list=$1
+for line in `cat $list`; do
+	name=$line
+	echo "Mapping filtered $name data to reference"
+	bwa mem -t 16 -R "@RG\tID:$name\tLB:CVOS\tPL:illumina\tPU:NovaSeq6000\tSM:$name" CroVir_genome_L77pg_16Aug2017.final_rename.fasta ./fastq_filtered/${name}_*_R1_P.trim.fastq.gz ./fastq_filtered/${name}_*_R2_P.trim.fastq.gz | samtools sort -@ 16 -O bam -T temp -o ./bam/$name.bam -
+done
+```
+
+`sh bwa_mem.sh .processing_files/sample.list` 
