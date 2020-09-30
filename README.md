@@ -19,16 +19,16 @@ Population genetic summary statistics output from `pixy` are in the `pixy_result
 
 Note that you may need to adjust the organization of your environment (e.g., script locations) to suite your workflow.
 
-__*If you want to go straight to mutation rate ratio calculations, skip ahead to the 'Analysis in R' section and go nuts!*__
+__*If you want to go straight to mutation rate ratio calculations, skip ahead to the [Analysis in R](#analysis-in-r) section and go nuts!*__
 
 ## Contents
 
-* Read filtering (update will link to raw reads)
-* Read mapping
-* Variant calling
-* Variant filtering
-* Pixy analysis
-* Analysis in R
+* [Read filtering (update will link to raw reads)](#read-filtering)
+* [Read mapping](#read-mapping)
+* [Variant calling](#variant-calling)
+* [Variant filtering](#variant-filtering)
+* [Pixy analysis](#pixy-analysis)
+* [Analysis in R](#analysis-in-r)
 
 ### Read filtering
 
@@ -268,6 +268,8 @@ done
 ### Analysis in R
 
 The results from `pixy` can now be read into R to calculate the ratio of male-to-female mutation rate and the ratio of Z chromosome-to-autosome mutation rate.
+
+Summary statistics results files are in the `./pixy_results` directory.
 
 Perform analyses using `male-biased_mutation_calculations_crotalus.R`
 
