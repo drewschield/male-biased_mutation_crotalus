@@ -10,6 +10,7 @@ The steps described here require the following software:
 * samtools/bcftools/htslib/bgzip/tabix
 * vcftools
 * GATK (v3.8-1-0 and v4.0.8.1)
+* conda
 * Pixy
 
 List and miscellaneous files are in the `processing_files` directory.
@@ -195,6 +196,21 @@ done
 ### Pixy analysis
 
 Check out [pixy](https://pixy.readthedocs.io/en/latest/), the new method for unbiased estimation of diversity and divergence statistics from all-sites VCFs.
+
+Pixy is straightforward to install via conda and by following the authors' steps [here](https://pixy.readthedocs.io/en/latest/installation.html).
+In my case, I made a new conda environment for `pixy`, so prior to running analyses I needed to run:
+
+```
+conda deactivate
+
+conda activate pixy
+```
+
+We'll run `pixy` on each chromosome in 100 Kb sliding windows to estimate pi and dxy.
+
+Analyses will use the sample 'population map' in `./processing_files/pilot_v2.male.popmap`.
+
+ 
 
 
 
