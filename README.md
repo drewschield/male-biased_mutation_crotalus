@@ -132,6 +132,8 @@ We will filter to set sites meeting these criteria as missing genotypes:
 * Low depth or low quality genotypes
 * Sites overlapping with repeat or gene annotations
 
+Note: zipped copies of the gene and repeat BED annotations are in `./processing_files`.
+
 #### Index feature files for masking using `GATK IndexFeatureFile`
 
 ```
@@ -180,7 +182,7 @@ We'll perform analysis in `pixy` one chromosome at a time, calling commands in a
 
 We'll parse the all-sites VCF using `bcftools` and `tabix`.
 
-parse_chrom_vcf.sh
+parse_chrom_vcf.sh:
 
 ```
 chromlist=$1
@@ -197,6 +199,8 @@ done
 
 Check out [pixy](https://pixy.readthedocs.io/en/latest/), the new method for unbiased estimation of diversity and divergence statistics from all-sites VCFs.
 
+#### Set up environment
+
 Pixy is straightforward to install via conda and by following the authors' steps [here](https://pixy.readthedocs.io/en/latest/installation.html).
 In my case, I made a new conda environment for `pixy`, so prior to running analyses I needed to run:
 
@@ -206,11 +210,37 @@ conda deactivate
 conda activate pixy
 ```
 
+Make `pixy_results` and `pixy_zarr` directories.
+
+```
+mkdir pixy_results
+
+mkdir pixy_zarr
+```
+
+#### Run `pixy`
+
 We'll run `pixy` on each chromosome in 100 Kb sliding windows to estimate pi and dxy.
 
-Analyses will use the sample 'population map' in `./processing_files/pilot_v2.male.popmap`.
+Analyses will use the sample 'population map' in `./processing_files/pilot_v2.male.popmap` and the `chrom.list` above.
 
- 
+pixyloop.sh:
+
+```
+for chrom in `cat chrom.list`; do
+	pixy --stats pi dxy --vcf ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.$chrom.vcf.gz --zarr_path ./pixy_zarr --window_size 100000 --populations pilot_v2.male.popmap --variant_filter_expression 'DP>=5' --invariant_filter_expression 'DP>=5' --outfile_prefix ./pixy_results/pilot_analysis_v2.male.intergenic.$chrom
+	rm -r pixy_zarr/$chrom/*
+done
+```
+
+`sh pixyloop ./processing_files/chrom.list`
+
+Note: `pixyloop.sh` removes the intermediate zarr files used in `pixy` analysis once the analysis is complete.
+These files can get quite large, which is why I remove them to save HD space, but they are useful for re-running analyses.
+Adjust the script to keep your zarr files if you wish!
+
+
+
 
 
 
