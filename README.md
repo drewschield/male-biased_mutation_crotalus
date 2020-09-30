@@ -159,6 +159,21 @@ We want to analyze intergenic regions only to best approximate neutral mutation 
 
 You're probably thinking, "we could have masked genes in the same step as repeats". You're right! I was lazy and returned to the hard-filtered VCF after deciding to analyze intergenic regions only. Fix as you please!
 
+```
+./gatk-3.8-1-0/GenomeAnalysisTK.jar -T VariantFiltration -R CroVir_genome_L77pg_16Aug2017.final_rename.fasta --mask CroVir_genome_gene.chrom.sort.bed --maskName GENE --setFilteredGtToNocall --variant ./vcf/pilot_analysis_v2.male.mask.HardFilter.vcf.gz --out ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.vcf.gz
+```
+
+#### Filter masked gene bases using `bcftools`
+
+Again, this is a totally needless step if you mask genes and repeats at the same time. If you're smarter than me and do so, just adding `FILTER="GENE"` to the `bcftools filter` -e flag will do the trick.
+
+```
+bcftools filter --threads 24 -e 'FILTER="GENE"' --set-GTs . -O z -o ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.vcf.gz ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.vcf.gz
+
+tabix -p vcf ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.vcf.gz
+```
+
+#### Parse chromosome all-sites VCFs
 
 
 
