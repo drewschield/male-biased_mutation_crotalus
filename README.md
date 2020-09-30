@@ -192,6 +192,14 @@ done
 
 `sh parse_chrom_vcf.sh ./processing_files/chrom.list`
 
+### Pixy analysis
+
+Check out [pixy](https://pixy.readthedocs.io/en/latest/), the new method for unbiased estimation of diversity and divergence statistics from all-sites VCFs.
+
+
+
+
+
 
 
 
