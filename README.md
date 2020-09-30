@@ -7,9 +7,9 @@ The steps described here require the following software:
 
 * trimmomatic
 * bwa
-* samtools/bcftools/htslib
+* samtools/bcftools/htslib/bgzip
 * vcftools
-* GATK (v3 and v4)
+* GATK (v3 and v4.0.8.1)
 * Pixy
 
 List files and shell script examples are in the `processing_files` directory.
@@ -43,7 +43,7 @@ mkdir fastq
 mkdir fastq_filtered
 ```
 
-#### Filter reads with Trimmomatic
+#### Filter reads with `trimmomatic`
 
 The script below will loop through samples in `processing_files/sample.list`.
 
@@ -79,4 +79,83 @@ for line in `cat $list`; do
 done
 ```
 
-`sh bwa_mem.sh .processing_files/sample.list` 
+`sh bwa_mem.sh .processing_files/sample.list`
+
+### Variant calling
+
+We will call variants using GATK, specifying 'all-sites' output for downstream calculation of summary statistics using variant and invariant sites.
+
+#### Set up environment
+
+Make `gvcf` and `vcf` directories.
+
+```
+mkdir gvcf
+mkdir vcf
+```
+
+#### Create sequence dictionary for reference genome
+
+`./gatk-4.0.8.1/gatk CreateSequenceDictionary -R CroVir_genome_L77pg_16Aug2017.final_rename.fasta`
+
+#### Call individual variants using GATK HaplotypeCaller
+
+GATK_HaplotypeCaller.sh
+
+```
+list=$1
+for i in `cat $list`; do
+	./gatk-4.0.8.1/gatk HaplotypeCaller -R CroVir_genome_L77pg_16Aug2017.final_rename.fasta --ERC GVCF -I ./bam/$i.bam -O ./gvcf/$i.raw.snps.indels.g.vcf
+	bgzip ./gvcf/$i.raw.snps.indels.g.vcf
+	tabix -p vcf ./gvcf/$i.raw.snps.indels.g.vcf.gz
+done
+```
+
+`sh GATK_HaplotypeCaller.sh ./processing_files/sample.list`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
