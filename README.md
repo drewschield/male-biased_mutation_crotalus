@@ -48,6 +48,7 @@ mkdir fastq_filtered
 The script below will loop through samples in `processing_files/sample.list`.
 
 trimmomatic.sh:
+
 ```
 list=$1
 for line in `cat $list`; do
@@ -63,11 +64,9 @@ done
 
 We will map filtered reads to the C. viridis reference genome (add link) using `bwa`.
 
-#### Set up environment
+#### Set up environment, map reads with `bwa`, sort with `samtools`
 
 `mkdir bam`
-
-#### Map reads with bwa
 
 bwa_mem.sh:
 
