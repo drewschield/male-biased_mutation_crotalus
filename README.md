@@ -22,10 +22,11 @@ Note that you may need to adjust the organization of your environment (e.g., scr
 ## Contents
 
 * Read filtering (update will link to raw reads)
-* Read mapping (update will link to reference genome & annotation)
+* Read mapping
 * Variant calling
 * Variant filtering
 * Pixy analysis
+* Analysis in R
 
 ### Read filtering
 
@@ -64,7 +65,9 @@ done
 
 ### Read mapping
 
-We will map filtered reads to the C. viridis reference genome (add link) using `bwa`.
+We will map filtered reads to the C. viridis reference genome using `bwa`.
+
+You can download the genome [here](https://ndownloader.figshare.com/files/16522091).
 
 #### Set up environment, map reads with `bwa`, sort with `samtools`
 
@@ -239,7 +242,32 @@ Note: `pixyloop.sh` removes the intermediate zarr files used in `pixy` analysis 
 These files can get quite large, which is why I remove them to save HD space, but they are useful for re-running analyses.
 Adjust the script to keep your zarr files if you wish!
 
+#### Concatenate `pixy` results
 
+Bring the chromosome-specific results together for each statistic.
+
+concatenate_pixy_output.sh:
+
+```
+# concatenate pi output
+head -n 1 ./pixy_results/pilot_analysis_v2.male.intergenic.scaffold-ma1_pi.txt > ./pixy_results/pilot_analysis_v2.male.intergenic.all_pi.txt
+for chrom in `cat ./processing_files/chrom.list`; do
+	tail -n +2 ./pixy_results/pilot_analysis_v2.male.intergenic.${chrom}_pi.txt >> ./pixy_results/pilot_analysis_v2.male.intergenic.all_pi.txt
+done
+# concatenate dxy output
+head -n 1 ./pixy_results/pilot_analysis_v2.male.intergenic.scaffold-ma1_dxy.txt > ./pixy_results/pilot_analysis_v2.male.intergenic.all_dxy.txt
+for chrom in `cat ./processing_files/chrom.list`; do
+	tail -n +2 ./pixy_results/pilot_analysis_v2.male.intergenic.${chrom}_dxy.txt >> ./pixy_results/pilot_analysis_v2.male.intergenic.all_dxy.txt
+done
+```
+
+`sh concatenate_pixy_output.sh`
+
+### Analysis in R
+
+The results from `pixy` can now be read into R to calculate the ratio of male-to-female mutation rate and the ratio of Z chromosome-to-autosome mutation rate.
+
+Perform analyses using `male-biased_mutation_calculations_crotalus.R`
 
 
 
