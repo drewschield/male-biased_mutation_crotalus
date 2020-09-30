@@ -173,7 +173,24 @@ bcftools filter --threads 24 -e 'FILTER="GENE"' --set-GTs . -O z -o ./vcf/pilot_
 tabix -p vcf ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.vcf.gz
 ```
 
-#### Parse chromosome all-sites VCFs
+#### Parse all-sites VCFs for each chromosome
+
+We'll perform analysis in `pixy` one chromosome at a time, calling commands in a loop on the set of chromosome-specific VCFs.
+
+We'll parse the all-sites VCF using `bcftools` and `tabix`.
+
+parse_chrom_vcf.sh
+
+```
+chromlist=$1
+for chrom in `cat $chromlist`; do
+	echo parsing $chrom VCF
+	bcftools view --threads 16 -r $chrom -O z -o ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.$chrom.vcf.gz ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.vcf.gz
+	tabix -p vcf ./vcf/pilot_analysis_v2.male.mask.HardFilter.intergenic.filter.$chrom.vcf.gz
+done
+```
+
+`sh parse_chrom_vcf.sh ./processing_files/chrom.list`
 
 
 
