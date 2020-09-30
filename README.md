@@ -155,7 +155,8 @@ tabix -p vcf ./vcf/pilot_analysis_v2.male.mask.HardFilter.vcf.gz
 
 #### Mask genes using `GATK VariantFiltration`
 
-We want to analyze intergenic regions only to best approximate neutral mutation rates across the genome. <br />
+We want to analyze intergenic regions only to best approximate neutral mutation rates across the genome.
+
 You're probably thinking, "we could have masked genes in the same step as repeats". You're right! I was lazy and returned to the hard-filtered VCF after deciding to analyze intergenic regions only. Fix as you please!
 
 
