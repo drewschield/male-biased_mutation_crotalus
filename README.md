@@ -9,7 +9,7 @@ The steps described here require the following software:
 * bwa
 * samtools/bcftools/htslib/bgzip/tabix
 * vcftools
-* GATK (v3 and v4.0.8.1)
+* GATK (v3.8-1-0 and v4.0.8.1)
 * Pixy
 
 List and miscellaneous files are in the `processing_files` directory.
@@ -118,8 +118,10 @@ done
 
 #### Call cohort variants using `GATK GenotypeGVCFs`, specifying 'all-sites' output
 
+This command will use the gvcf files in `./processing_files/gvcf.pilot_analysis_v2.male.list`.
+
 ```
-java -jar ../../gatk-3.8-1-0/GenomeAnalysisTK.jar -T GenotypeGVCFs -R ../../CroVir_genome_L77pg_16Aug2017.final_rename.fasta -V gvcf.pilot_analysis_v2.male.list -allSites -o ./vcf/pilot_analysis_v2.male.raw.vcf.gz
+java -jar ./gatk-3.8-1-0/GenomeAnalysisTK.jar -T GenotypeGVCFs -R CroVir_genome_L77pg_16Aug2017.final_rename.fasta -V ./processing_files/gvcf.pilot_analysis_v2.male.list -allSites -o ./vcf/pilot_analysis_v2.male.raw.vcf.gz
 ```
 
 
