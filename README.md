@@ -124,10 +124,34 @@ This command will use the gvcf files in `./processing_files/gvcf.pilot_analysis_
 java -jar ./gatk-3.8-1-0/GenomeAnalysisTK.jar -T GenotypeGVCFs -R CroVir_genome_L77pg_16Aug2017.final_rename.fasta -V ./processing_files/gvcf.pilot_analysis_v2.male.list -allSites -o ./vcf/pilot_analysis_v2.male.raw.vcf.gz
 ```
 
+### Variant filtering
 
+We will filter to set sites meeting these criteria as missing genotypes:
 
+* Low depth or low quality genotypes
+* Sites overlapping with repeat or gene annotations
 
+#### Index feature files for masking using `GATK IndexFeatureFile`
 
+```
+./gatk-4.0.8.1/gatk IndexFeatureFile --feature-file CroVir_genome_L77pg_16Aug2017.final.reformat.repeat.masked.sort.chrom.bed
+
+./gatk-4.0.8.1/gatk IndexFeatureFile --feature-file CroVir_genome_gene.chrom.sort.bed
+```
+
+#### Mask repeat bases using `GATK VariantFiltration`
+
+```
+java -jar ./gatk-3.8-1-0/GenomeAnalysisTK.jar -T VariantFiltration -R CroVir_genome_L77pg_16Aug2017.final_rename.fasta --mask CroVir_genome_L77pg_16Aug2017.final.reformat.repeat.masked.sort.chrom.bed --maskName REP --setFilteredGtToNocall --variant ./vcf/pilot_analysis_v2.male.raw.vcf.gz --out ./vcf/pilot_analysis_v2.male.mask.vcf.gz
+```
+
+#### Filter low quality and repeat bases using `bcftools` and index using `tabix` 
+
+```
+bcftools filter --threads 24 -e 'FORMAT/DP<5 | FORMAT/GQ<30 || TYPE="indel" || FILTER="REP"' --set-GTs . -O z -o ./vcf/pilot_analysis_v2.male.mask.HardFilter.vcf.gz ./vcf/pilot_analysis_v2.male.mask.vcf.gz
+
+tabix -p vcf ./vcf/pilot_analysis_v2.male.mask.HardFilter.vcf.gz
+```
 
 
 
