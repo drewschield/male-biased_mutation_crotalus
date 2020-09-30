@@ -12,6 +12,11 @@ The steps described here require the following software:
 * GATK (v3 and v4)
 * Pixy
 
+List files and shell script examples are in the `processing_files` directory.
+Population genetic summary statistics output from `pixy` are in the `data` directory.
+
+Note, you may need to adjust the organization of your environment to suite your workflow.
+
 ## Contents
 
 * Read filtering (update will link to raw reads)
@@ -23,10 +28,11 @@ The steps described here require the following software:
 ### Read Filtering
 
 I will impose these filters to trim reads:
-	* Remove 5' end bases if quality is below 20
-	* Remove 3' end bases if quality is below 20
-	* Minimum read length = 32
-	* Remove reads if average quality is < 30
+
+* Remove 5' end bases if quality is below 20
+* Remove 3' end bases if quality is below 20
+* Minimum read length = 32
+* Remove reads if average quality is < 30
 
 #### Set up environment
 
