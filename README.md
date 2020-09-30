@@ -7,7 +7,7 @@ The steps described here require the following software:
 
 * trimmomatic
 * bwa
-* samtools/bcftools/htslib/bgzip
+* samtools/bcftools/htslib/bgzip/tabix
 * vcftools
 * GATK (v3 and v4.0.8.1)
 * Pixy
@@ -25,7 +25,7 @@ Note that you may need to adjust the organization of your environment to suite y
 * Variant filtering
 * Pixy analysis
 
-### Read Filtering
+### Read filtering
 
 We impose these filters to trim reads:
 
@@ -83,7 +83,7 @@ done
 
 ### Variant calling
 
-We will call variants using GATK, specifying 'all-sites' output for downstream calculation of summary statistics using variant and invariant sites.
+We will call variants using `GATK`, specifying 'all-sites' output for downstream calculation of summary statistics using variant and invariant sites.
 
 #### Set up environment
 
@@ -98,7 +98,9 @@ mkdir vcf
 
 `./gatk-4.0.8.1/gatk CreateSequenceDictionary -R CroVir_genome_L77pg_16Aug2017.final_rename.fasta`
 
-#### Call individual variants using GATK HaplotypeCaller
+#### Call individual variants using `GATK HaplotypeCaller`
+
+This step will also compress and index output using `bgzip` and `tabix`.
 
 GATK_HaplotypeCaller.sh
 
@@ -112,6 +114,10 @@ done
 ```
 
 `sh GATK_HaplotypeCaller.sh ./processing_files/sample.list`
+
+#### Call cohort variants using `GATK GenotypeGVCFs`, specifying 'all-sites' output
+
+`java -jar ../../gatk-3.8-1-0/GenomeAnalysisTK.jar -T GenotypeGVCFs -R ../../CroVir_genome_L77pg_16Aug2017.final_rename.fasta -V gvcf.pilot_analysis_v2.male.list -allSites -o ./vcf/pilot_analysis_v2.male.raw.vcf.gz`
 
 
 
