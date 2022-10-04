@@ -1,5 +1,7 @@
 # Male-biased mutation rate analysis in rattlesnakes
 
+![Male-biased mutation in rattlesnakes](/cover-image.png "cover image")
+
 This file contains details about the data processing and analysis for estimation of the ratio of male-to-female mutation rates in rattlesnakes based on comparisons of Z-linked and autosomal sequence divergence. 
 
 The steps described here require the following software:
